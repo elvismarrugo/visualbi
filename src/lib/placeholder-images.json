@@ -1,3 +1,28 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero-background",
+      "description": "A modern office with people collaborating around a computer screen showing data visualizations.",
+      "imageUrl": "https://images.unsplash.com/photo-1680459575585-390ed5cfcae0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxvZmZpY2UlMjBjb2xsYWJvcmF0aW9ufGVufDB8fHx8MTc1OTI2ODMyMnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "office collaboration"
+    },
+    {
+      "id": "portfolio-1",
+      "description": "An e-commerce website displayed on a laptop screen.",
+      "imageUrl": "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxlY29tbWVyY2UlMjB3ZWJzaXRlfGVufDB8fHx8MTc1OTI1NTg1Mnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "ecommerce website"
+    },
+    {
+      "id": "portfolio-2",
+      "description": "A business intelligence dashboard with various charts and graphs.",
+      "imageUrl": "https://images.unsplash.com/photo-1686061593213-98dad7c599b9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxkYXNoYm9hcmQlMjBhbmFseXRpY3N8ZW58MHx8fHwxNzU5MTY4MDM2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "dashboard analytics"
+    },
+    {
+      "id": "portfolio-3",
+      "description": "A diagram showing a complex API integration workflow.",
+      "imageUrl": "https://images.unsplash.com/photo-1608736967942-7b560e6a7249?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8QVBJJTIwaW50ZWdyYXRpb258ZW58MHx8fHwxNzU5MjY5NzQxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "API integration"
+    }
+  ]
 }

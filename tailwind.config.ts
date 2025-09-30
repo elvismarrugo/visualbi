@@ -10,8 +10,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        body: ['Inter', 'sans-serif'],
-        headline: ['Inter', 'sans-serif'],
+        body: ['"Baloo Bhaina 2"', 'sans-serif'],
+        headline: ['"Baloo Bhaina 2"', 'sans-serif'],
         code: ['monospace'],
       },
       colors: {

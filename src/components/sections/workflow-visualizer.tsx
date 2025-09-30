@@ -25,12 +25,12 @@ function SubmitButton() {
       {pending ? (
         <>
           <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
-          Generating...
+          Generando...
         </>
       ) : (
         <>
           <Send className="mr-2 h-4 w-4" />
-          Visualize Workflow
+          Visualizar Flujo de Trabajo
         </>
       )}
     </Button>
@@ -48,10 +48,10 @@ export default function WorkflowVisualizerSection() {
               <Bot className="h-8 w-8 text-primary" />
             </div>
             <h2 className="mt-4 font-headline text-3xl font-extrabold tracking-tight sm:text-4xl">
-              AI-Powered Workflow Visualizer
+              Visualizador de Flujo de Trabajo con IA
             </h2>
             <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-              Describe your current business process, and our AI will generate a proposed automated workflow, highlighting areas for improvement.
+              Describa su proceso de negocio actual y nuestra IA generará una propuesta de flujo de trabajo automatizado, destacando áreas de mejora.
             </p>
         </div>
 
@@ -59,18 +59,18 @@ export default function WorkflowVisualizerSection() {
           <Card>
             <form action={formAction}>
               <CardHeader>
-                <CardTitle>Describe Your Process</CardTitle>
+                <CardTitle>Describa Su Proceso</CardTitle>
                 <CardDescription>
-                  Be as detailed as possible for the best results. For example: "We receive orders via email, manually enter them into a spreadsheet, then create an invoice in another system."
+                  Sea lo más detallado posible para obtener los mejores resultados. Por ejemplo: "Recibimos pedidos por correo electrónico, los ingresamos manualmente en una hoja de cálculo y luego creamos una factura en otro sistema".
                 </CardDescription>
               </CardHeader>
               <CardContent>
                   <div className="grid w-full gap-2">
-                    <Label htmlFor="processDescription" className="sr-only">Process Description</Label>
+                    <Label htmlFor="processDescription" className="sr-only">Descripción del Proceso</Label>
                     <Textarea
                       id="processDescription"
                       name="processDescription"
-                      placeholder="Type your business process here..."
+                      placeholder="Escriba su proceso de negocio aquí..."
                       rows={8}
                       required
                     />
@@ -87,9 +87,9 @@ export default function WorkflowVisualizerSection() {
 
           <Card className="min-h-[300px]">
             <CardHeader>
-              <CardTitle>Proposed Automated Workflow</CardTitle>
+              <CardTitle>Flujo de Trabajo Automatizado Propuesto</CardTitle>
               <CardDescription>
-                Your generated workflow diagram will appear here.
+                El diagrama de su flujo de trabajo generado aparecerá aquí.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -97,12 +97,12 @@ export default function WorkflowVisualizerSection() {
                 {useFormStatus().pending ? (
                    <div className="flex flex-col items-center gap-2 text-muted-foreground">
                     <RefreshCw className="h-8 w-8 animate-spin" />
-                    <p>AI is generating your diagram...</p>
+                    <p>La IA está generando su diagrama...</p>
                   </div>
                 ) : state.data?.workflowDiagramDataUri ? (
                   <Image
                     src={state.data.workflowDiagramDataUri}
-                    alt="Generated workflow diagram"
+                    alt="Diagrama de flujo de trabajo generado"
                     width={512}
                     height={288}
                     className="object-contain w-full h-full"
@@ -110,7 +110,7 @@ export default function WorkflowVisualizerSection() {
                 ) : (
                   <div className="flex flex-col items-center gap-2 text-muted-foreground">
                     <Bot className="h-8 w-8" />
-                    <p>Waiting for process description</p>
+                    <p>Esperando la descripción del proceso</p>
                   </div>
                 )}
                 {state.message && state.message !== 'Success' && !state.errors && (

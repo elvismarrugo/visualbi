@@ -10,10 +10,10 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import Logo from "../ui/logo";
 
 const navLinks = [
-  { href: "#services", label: "Services" },
-  { href: "#portfolio", label: "Portfolio" },
-  { href: "#visualizer", label: "Workflow Visualizer" },
-  { href: "#contact", label: "Contact" },
+  { href: "#services", label: "Servicios" },
+  { href: "#portfolio", label: "Portafolio" },
+  { href: "#visualizer", label: "Visualizador de Flujos" },
+  { href: "#contact", label: "Contacto" },
 ];
 
 export default function Header() {
@@ -56,13 +56,13 @@ export default function Header() {
             className="hidden md:inline-flex"
             asChild
           >
-            <Link href="#contact">Get a Quote</Link>
+            <Link href="#contact">Solicitar Cotización</Link>
           </Button>
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="outline" size="icon" className="md:hidden">
                 <Menu className="h-5 w-5" />
-                <span className="sr-only">Open menu</span>
+                <span className="sr-only">Abrir menú</span>
               </Button>
             </SheetTrigger>
             <SheetContent side="right">

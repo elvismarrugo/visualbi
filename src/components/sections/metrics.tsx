@@ -3,17 +3,17 @@ import { Zap, Clock, Users } from "lucide-react";
 const metrics = [
   {
     value: "85%",
-    label: "Reduction in inventory update time",
+    label: "Reducción en el tiempo de actualización de inventario",
     icon: <Clock className="h-8 w-8" />,
   },
   {
     value: "4x",
-    label: "Faster order processing",
+    label: "Procesamiento de pedidos más rápido",
     icon: <Zap className="h-8 w-8" />,
   },
   {
     value: "300+",
-    label: "Happy B2B Clients",
+    label: "Clientes B2B Satisfechos",
     icon: <Users className="h-8 w-8" />,
   },
 ];

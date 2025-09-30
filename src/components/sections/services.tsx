@@ -4,21 +4,21 @@ import { ShoppingCart, LayoutDashboard, Shuffle } from "lucide-react";
 const services = [
   {
     icon: <ShoppingCart className="h-10 w-10 text-primary" />,
-    title: "E-commerce Automation",
-    description: "Streamline your online store operations, from inventory management to order fulfillment, reducing manual work and increasing efficiency.",
-    useCase: "Perfect for high-volume online retailers."
+    title: "Automatización de E-commerce",
+    description: "Optimice las operaciones de su tienda en línea, desde la gestión de inventario hasta el cumplimiento de pedidos, reduciendo el trabajo manual y aumentando la eficiencia.",
+    useCase: "Perfecto para minoristas en línea de alto volumen."
   },
   {
     icon: <LayoutDashboard className="h-10 w-10 text-primary" />,
-    title: "Custom Dashboards",
-    description: "Gain real-time insights with tailor-made data dashboards. We connect your disparate data sources into a single, intuitive interface.",
-    useCase: "Ideal for data-driven decision making."
+    title: "Paneles Personalizados",
+    description: "Obtenga información en tiempo real con paneles de datos a medida. Conectamos sus diversas fuentes de datos en una única interfaz intuitiva.",
+    useCase: "Ideal para la toma de decisiones basada en datos."
   },
   {
     icon: <Shuffle className="h-10 w-10 text-primary" />,
-    title: "Custom Integrations",
-    description: "Connect your essential business applications seamlessly. Our custom API integrations ensure your software ecosystem works in harmony.",
-    useCase: "Essential for businesses with diverse software tools."
+    title: "Integraciones Personalizadas",
+    description: "Conecte sus aplicaciones empresariales esenciales sin problemas. Nuestras integraciones de API personalizadas aseguran que su ecosistema de software funcione en armonía.",
+    useCase: "Esencial para empresas con diversas herramientas de software."
   },
 ];
 
@@ -28,10 +28,10 @@ export default function ServicesSection() {
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           <h2 className="font-headline text-3xl font-extrabold tracking-tight sm:text-4xl">
-            Our Core Solutions
+            Nuestras Soluciones Principales
           </h2>
           <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-            We build robust solutions to solve your most complex business challenges.
+            Construimos soluciones robustas para resolver sus desafíos empresariales más complejos.
           </p>
         </div>
         <div className="mt-12 grid gap-8 md:grid-cols-3">

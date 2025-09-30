@@ -13,7 +13,7 @@ function SubmitButton() {
   
     return (
       <Button type="submit" disabled={pending} className="w-full">
-        {pending ? "Sending..." : "Send Inquiry"}
+        {pending ? "Enviando..." : "Enviar Consulta"}
         <Send className="ml-2 h-4 w-4" />
       </Button>
     );
@@ -30,7 +30,7 @@ export default function ContactSection() {
         });
         // Here you would typically call a server action or API endpoint
         // For now, we just log to the console.
-        alert("Thank you for your inquiry! We will get back to you shortly.");
+        alert("¡Gracias por su consulta! Nos pondremos en contacto con usted en breve.");
     };
 
   return (
@@ -42,36 +42,36 @@ export default function ContactSection() {
                     <Mail className="h-8 w-8 text-primary" />
                 </div>
                 <h2 className="font-headline text-3xl font-extrabold tracking-tight sm:text-4xl">
-                    Let's Build Together
+                    Construyamos Juntos
                 </h2>
                 <p className="text-lg text-muted-foreground">
-                    Have a project in mind? We'd love to hear about it. Fill out the form, and a member of our team will get back to you shortly to discuss how we can help you achieve your goals.
+                    ¿Tiene un proyecto en mente? Nos encantaría saber de él. Complete el formulario y un miembro de nuestro equipo se pondrá en contacto con usted en breve para discutir cómo podemos ayudarlo a alcanzar sus metas.
                 </p>
                 <div className="text-sm text-muted-foreground">
-                    <p>Or email us directly at: <a href="mailto:contact@automatech.com" className="text-primary font-semibold hover:underline">contact@automatech.com</a></p>
+                    <p>O envíenos un correo electrónico directamente a: <a href="mailto:contact@automatech.com" className="text-primary font-semibold hover:underline">contact@automatech.com</a></p>
                 </div>
             </div>
             <Card>
             <form action={handleSubmit}>
               <CardHeader>
-                <CardTitle>Client Inquiry</CardTitle>
-                <CardDescription>Tell us about your project.</CardDescription>
+                <CardTitle>Consulta de Cliente</CardTitle>
+                <CardDescription>Cuéntenos sobre su proyecto.</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Name</Label>
-                  <Input id="name" name="name" placeholder="Your Name" required />
+                  <Label htmlFor="name">Nombre</Label>
+                  <Input id="name" name="name" placeholder="Su Nombre" required />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input id="email" name="email" type="email" placeholder="your.email@company.com" required />
+                  <Label htmlFor="email">Correo Electrónico</Label>
+                  <Input id="email" name="email" type="email" placeholder="su.email@empresa.com" required />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="details">Project Details</Label>
+                  <Label htmlFor="details">Detalles del Proyecto</Label>
                   <Textarea
                     id="details"
                     name="details"
-                    placeholder="Describe your project, goals, and any current challenges."
+                    placeholder="Describa su proyecto, objetivos y cualquier desafío actual."
                     required
                     rows={5}
                   />

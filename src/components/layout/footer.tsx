@@ -13,7 +13,7 @@ export default function Footer() {
               <Logo />
             </Link>
             <p className="text-sm text-muted-foreground">
-              Automating Your Success with Intelligent Tech.
+              Automatizando Su Éxito con Tecnología Inteligente.
             </p>
           </div>
           <div className="flex items-center gap-2">
@@ -35,7 +35,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="mt-6 border-t pt-6 text-center text-sm text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} AutomaTech Solutions. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Soluciones AutomaTech. Todos los derechos reservados.</p>
         </div>
       </div>
     </footer>

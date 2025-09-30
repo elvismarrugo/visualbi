@@ -7,24 +7,24 @@ import { TrendingUp } from "lucide-react";
 const portfolioItems = [
   {
     id: "portfolio-1",
-    title: "Retail Giant E-commerce Overhaul",
-    description: "Automated inventory sync across multiple warehouses and storefronts, slashing update times and eliminating stockouts.",
-    metric: "95% reduction in stock errors",
-    tags: ["E-commerce", "Automation"],
+    title: "Revisión de E-commerce para un Gigante Minorista",
+    description: "Sincronización automatizada de inventario en múltiples almacenes y tiendas, reduciendo drásticamente los tiempos de actualización y eliminando roturas de stock.",
+    metric: "Reducción del 95% en errores de stock",
+    tags: ["E-commerce", "Automatización"],
   },
   {
     id: "portfolio-2",
-    title: "FinTech Real-time Analytics",
-    description: "Developed a custom BI dashboard aggregating data from 5+ sources, providing C-suite with instant, actionable insights.",
-    metric: "50% faster reporting cycles",
-    tags: ["Dashboards", "BI"],
+    title: "Análisis en Tiempo Real para FinTech",
+    description: "Desarrollo de un panel de BI personalizado que agrega datos de más de 5 fuentes, proporcionando a la alta dirección información instantánea y procesable.",
+    metric: "Ciclos de informes 50% más rápidos",
+    tags: ["Paneles", "BI"],
   },
   {
     id: "portfolio-3",
-    title: "SaaS Platform Integration",
-    description: "Engineered a scalable integration layer connecting a client's CRM, ERP, and marketing platforms into a unified system.",
-    metric: "200% increase in data consistency",
-    tags: ["Integrations", "API"],
+    title: "Integración de Plataforma SaaS",
+    description: "Se diseñó una capa de integración escalable que conecta el CRM, ERP y las plataformas de marketing de un cliente en un sistema unificado.",
+    metric: "Aumento del 200% en la consistencia de los datos",
+    tags: ["Integraciones", "API"],
   },
 ];
 
@@ -34,10 +34,10 @@ export default function PortfolioSection() {
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           <h2 className="font-headline text-3xl font-extrabold tracking-tight sm:text-4xl">
-            Success Stories
+            Casos de Éxito
           </h2>
           <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-            Explore how we've transformed businesses with our innovative solutions.
+            Explore cómo hemos transformado negocios con nuestras soluciones innovadoras.
           </p>
         </div>
         <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">

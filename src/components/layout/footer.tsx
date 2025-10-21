@@ -61,17 +61,17 @@ export default function Footer() {
           <div className="flex items-center gap-3">
             <Button variant="ghost" size="icon" asChild>
               <Link href="https://www.instagram.com/somosvisualbi" aria-label="Instagram" target="_blank">
-                <InstagramIcon className="h-8 w-8" />
+                <InstagramIcon className="h-10 w-10" />
               </Link>
             </Button>
             <Button variant="ghost" size="icon" asChild>
                 <Link href="https://wa.me/573176589172" aria-label="WhatsApp" target="_blank">
-                    <WhatsAppIcon className="h-8 w-8" />
+                    <WhatsAppIcon className="h-10 w-10" />
                 </Link>
             </Button>
             <Button variant="ghost" size="icon" asChild>
               <Link href="https://www.linkedin.com/in/elvismarrugo" aria-label="LinkedIn" target="_blank">
-                <LinkedInIcon className="h-8 w-8" />
+                <LinkedInIcon className="h-10 w-10" />
               </Link>
             </Button>
           </div>

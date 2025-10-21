@@ -62,8 +62,14 @@ const visualizeClientWorkflowFlow = ai.defineFlow(
     if (!output) {
       throw new Error('Failed to generate workflow diagram');
     }
+    // Clean the output to ensure it only contains valid Mermaid syntax
+    const cleanedDiagram = output.workflowDiagram
+      .replace(/```mermaid\n/g, '') // Remove the opening code fence
+      .replace(/```/g, '')         // Remove the closing code fence
+      .trim();                      // Trim any leading/trailing whitespace
+
     return {
-      workflowDiagram: output.workflowDiagram.replace(/```mermaid\n|```/g, '').trim(),
+      workflowDiagram: cleanedDiagram,
     };
   }
 );

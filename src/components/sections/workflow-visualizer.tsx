@@ -76,15 +76,25 @@ export default function WorkflowVisualizerSection() {
   useEffect(() => {
     if (state.data?.workflowDiagram) {
       setDiagram(state.data.workflowDiagram);
+    } else if (state.message && state.message !== 'Success') {
+      // Clear diagram on error
+      setDiagram(null);
     }
-  }, [state.data?.workflowDiagram]);
+  }, [state.data?.workflowDiagram, state.message]);
 
   const handleSubmit = (formData: FormData) => {
-    // Preserve the description in the textarea
-    const currentDescription = formData.get("processDescription") as string;
-    setDescription(currentDescription);
     formAction(formData);
   };
+
+  const getErrorMessage = () => {
+    if (!state.message || state.message === 'Success' || state.errors) return null;
+
+    if (state.message.includes('503 Service Unavailable') || state.message.includes('overloaded')) {
+      return "El servicio de IA está sobrecargado en este momento. Por favor, inténtalo de nuevo en unos momentos.";
+    }
+    
+    return state.message;
+  }
 
   return (
     <section id="visualizer" className="py-16 sm:py-24 bg-muted/40">
@@ -150,8 +160,8 @@ export default function WorkflowVisualizerSection() {
                     <div className="flex flex-col items-center gap-2 text-muted-foreground text-center">
                         <Bot className="h-8 w-8" />
                         <p>Esperando la descripción del proceso</p>
-                        {state.message && state.message !== 'Success' && !state.errors && (
-                          <p className="p-4 text-center text-destructive max-w-md">{state.message}</p>
+                        {getErrorMessage() && (
+                          <p className="p-4 text-center text-destructive max-w-md">{getErrorMessage()}</p>
                         )}
                     </div>
                     )}

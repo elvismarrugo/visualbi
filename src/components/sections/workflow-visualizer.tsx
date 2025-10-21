@@ -53,30 +53,24 @@ export default function WorkflowVisualizerSection() {
     if (state.data?.workflowDiagram) {
       setDiagram(state.data.workflowDiagram);
     } else if (state.message && state.message !== 'Success' && !state.errors) {
-      setDiagram(null);
+      // Mantenemos el diagrama anterior si la nueva llamada falla
+      // y solo limpiamos si explícitamente no hay diagrama
+      if (!state.data?.workflowDiagram) {
+        setDiagram(null);
+      }
     }
   }, [state]);
 
   const handleSubmit = (formData: FormData) => {
-    // Keep the diagram from the previous state if the new one is generating
-    if(!diagram) {
-      setDiagram(null);
-    }
+    // No limpiar el diagrama al enviar, esperar la respuesta
     formAction(formData);
   };
   
   const getErrorMessage = () => {
     if (!state.message || state.message === 'Success' || state.errors) return null;
 
-    if (state.message.includes('503') || state.message.includes('overloaded')) {
-      return "El servicio de IA está sobrecargado en este momento. Por favor, inténtalo de nuevo en unos momentos.";
-    }
-    
-    if (state.message.includes('generat') || state.message.includes('diagram')) {
-      return "La IA no pudo generar un diagrama para esta descripción. Por favor, intenta ser más detallado o prueba con otro proceso.";
-    }
-    
-    return "Ocurrió un error inesperado. Por favor, inténtalo de nuevo.";
+    // Mensaje genérico y profesional
+    return state.message;
   }
 
   return (

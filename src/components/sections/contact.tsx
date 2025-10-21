@@ -1,6 +1,6 @@
 "use client";
 
-import { useFormStatus } from "react";
+import { useFormStatus } from "react-dom";
 import { Mail, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -32,6 +32,7 @@ export default function ContactSection() {
         // For now, we just log to the console.
         alert("¡Gracias por su consulta! Nos pondremos en contacto con usted en breve.");
     };
+
 
   return (
     <section id="contact" className="py-16 sm:py-24">

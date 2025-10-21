@@ -49,7 +49,7 @@ export default function ContactSection() {
                     ¿Tiene un proyecto en mente? Nos encantaría saber de él. Complete el formulario y un miembro de nuestro equipo se pondrá en contacto con usted en breve para discutir cómo podemos ayudarlo a alcanzar sus metas.
                 </p>
                 <div className="text-sm text-muted-foreground">
-                    <p>O envíenos un correo electrónico directamente a: <a href="mailto:contact@visualbi.com" className="text-primary font-semibold hover:underline">contact@visualbi.com</a></p>
+                    <p>O envíenos un correo electrónico directamente a: <a href="mailto:elvix@somosvisualbi.com" className="text-primary font-semibold hover:underline">elvix@somosvisualbi.com</a></p>
                 </div>
             </div>
             <Card>

@@ -1,9 +1,9 @@
 "use client";
 
-import { useActionState, useEffect, useRef, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { useFormStatus } from "react-dom";
-import mermaid from "mermaid";
 import { Bot, RefreshCw, Send } from "lucide-react";
+import Image from "next/image";
 
 import { handleVisualizeWorkflow } from "@/app/actions";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -37,45 +37,6 @@ function SubmitButton() {
   );
 }
 
-// Initialize Mermaid once
-try {
-  mermaid.initialize({ startOnLoad: false, theme: 'neutral', securityLevel: 'loose' });
-} catch (e) {
-  console.error('Failed to initialize mermaid', e);
-}
-
-
-function MermaidDiagram({ diagram }: { diagram: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (diagram && ref.current) {
-      ref.current.innerHTML = ''; // Clear previous diagram
-      try {
-        mermaid.render(`mermaid-graph-${Date.now()}`, diagram)
-          .then(({ svg }) => {
-            if (ref.current) {
-              ref.current.innerHTML = svg;
-            }
-          })
-          .catch(err => {
-            console.error("Mermaid rendering error:", err);
-            if (ref.current) {
-              ref.current.innerHTML = `<p class="text-destructive">Error al renderizar el diagrama.</p>`;
-            }
-          });
-      } catch (err) {
-        console.error("Mermaid execution error:", err);
-        if (ref.current) {
-          ref.current.innerHTML = `<p class="text-destructive">Error al ejecutar Mermaid.</p>`;
-        }
-      }
-    }
-  }, [diagram]);
-
-  return <div ref={ref} className="w-full h-full flex items-center justify-center" />;
-}
-
 export default function WorkflowVisualizerSection() {
   const [state, formAction] = useActionState(handleVisualizeWorkflow, initialState);
   const [description, setDescription] = useState("");
@@ -84,11 +45,11 @@ export default function WorkflowVisualizerSection() {
   useEffect(() => {
     if (state.data?.workflowDiagram) {
       setDiagram(state.data.workflowDiagram);
-    } else if (state.message && state.message !== 'Success') {
-      // Clear diagram on error
+    } else if (state.message && state.message !== 'Success' && !state.errors) {
+      // Clear diagram on error that is not a validation error
       setDiagram(null);
     }
-  }, [state.data, state.message]);
+  }, [state]);
 
   const handleSubmit = (formData: FormData) => {
     formAction(formData);
@@ -157,13 +118,13 @@ export default function WorkflowVisualizerSection() {
                 <CardHeader>
                 <CardTitle>Flujo de Trabajo Automatizado Propuesto</CardTitle>
                 <CardDescription>
-                    El diagrama de su flujo de trabajo generado aparecerá aquí.
+                    El diagrama de su flujo de trabajo generado por IA aparecerá aquí como una imagen.
                 </CardDescription>
                 </CardHeader>
                 <CardContent>
-                <div className="aspect-video w-full overflow-x-auto rounded-lg border-2 border-dashed bg-background flex items-center justify-center p-4">
+                <div className="aspect-video w-full overflow-auto rounded-lg border-2 border-dashed bg-background flex items-center justify-center p-4">
                     {diagram ? (
-                        <MermaidDiagram diagram={diagram} />
+                        <Image src={diagram} alt="Diagrama de flujo de trabajo generado" width={800} height={450} style={{objectFit: 'contain', width: '100%', height: '100%'}} />
                     ) : (
                     <div className="flex flex-col items-center gap-2 text-muted-foreground text-center">
                         <Bot className="h-8 w-8" />

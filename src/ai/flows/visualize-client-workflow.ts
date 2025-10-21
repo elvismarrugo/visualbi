@@ -21,7 +21,7 @@ const VisualizeClientWorkflowOutputSchema = z.object({
   workflowDiagram: z
     .string()
     .describe(
-      'A Mermaid.js graph definition representing the proposed automated workflow.'
+      "A data URI of a flowchart image representing the proposed automated workflow. Expected format: 'data:image/...;base64,...'"
     ),
 });
 export type VisualizeClientWorkflowOutput = z.infer<typeof VisualizeClientWorkflowOutputSchema>;
@@ -32,44 +32,42 @@ export async function visualizeClientWorkflow(
   return visualizeClientWorkflowFlow(input);
 }
 
-const diagramPrompt = ai.definePrompt({
-  name: 'diagramPrompt',
-  input: {
-    schema: VisualizeClientWorkflowInputSchema,
-  },
-  output: {
-    schema: VisualizeClientWorkflowOutputSchema,
-  },
-  prompt: `You are an expert workflow automation consultant. Based on the client's description of their current business processes, generate a proposed automated workflow diagram.
+const diagramPrompt = `You are an expert workflow automation consultant. Based on the client's description of their current business processes, generate a professional-looking and clear flowchart diagram.
 
-The diagram should be a clear, professional-looking flowchart using Mermaid.js syntax. Use a 'graph TD' (Top-Down) layout.
-The diagram should highlight areas where automation can improve efficiency. Ensure the diagram is clear and easy to understand for someone unfamiliar with the processes.
-
-Generate only the Mermaid.js code block for the diagram, starting with 'graph TD' and ending before any explanations.
+- The diagram should visually represent an improved, automated workflow.
+- Use simple shapes (rectangles, diamonds for decisions, ovals for start/end).
+- Use clear, concise labels for each step.
+- The diagram should be easy to understand for someone unfamiliar with the process.
+- The final output must be ONLY the image. Do not add any extra text or explanation.
 
 Client's Current Business Processes:
-{{{processDescription}}}`,
-});
+${'{{processDescription}}'}`;
 
 const visualizeClientWorkflowFlow = ai.defineFlow(
   {
     name: 'visualizeClientWorkflowFlow',
     inputSchema: VisualizeClientWorkflowInputSchema,
-    outputSchema: z.object({workflowDiagram: z.string()}),
+    outputSchema: VisualizeClientWorkflowOutputSchema,
   },
   async input => {
-    const {output} = await diagramPrompt(input);
-    if (!output) {
-      throw new Error('Failed to generate workflow diagram');
+    const {media} = await ai.generate({
+      model: 'googleai/gemini-2.5-flash-image-preview',
+      prompt: [
+        {text: diagramPrompt.replace('{{processDescription}}', input.processDescription)},
+      ],
+      config: {
+        responseModalities: ['IMAGE'],
+      },
+    });
+
+    const imageUrl = media?.url;
+
+    if (!imageUrl) {
+      throw new Error('The AI failed to generate an image for the workflow.');
     }
-    // Clean the output to ensure it only contains valid Mermaid syntax
-    const cleanedDiagram = output.workflowDiagram
-      .replace(/```mermaid\n/g, '') // Remove the opening code fence
-      .replace(/```/g, '')         // Remove the closing code fence
-      .trim();                      // Trim any leading/trailing whitespace
 
     return {
-      workflowDiagram: cleanedDiagram,
+      workflowDiagram: imageUrl,
     };
   }
 );

@@ -32,13 +32,18 @@ export async function visualizeClientWorkflow(
   return visualizeClientWorkflowFlow(input);
 }
 
-const diagramPrompt = `You are an expert workflow automation consultant. Based on the client's description of their current business processes, generate a visual representation of a proposed automated workflow diagram.
+const diagramPrompt = ai.definePrompt({
+  name: 'diagramPrompt',
+  input: {
+    schema: VisualizeClientWorkflowInputSchema,
+  },
+  prompt: `You are an expert workflow automation consultant. Based on the client's description of their current business processes, generate a visual representation of a proposed automated workflow diagram.
 The diagram should be a clear, professional-looking flowchart. Use standard flowchart symbols.
 The diagram should highlight areas where automation can improve efficiency. Ensure the diagram is clear and easy to understand for someone unfamiliar with the processes.
 
 Client's Current Business Processes:
-${'{{{processDescription}}}'}
-`;
+{{{processDescription}}}`,
+});
 
 const visualizeClientWorkflowFlow = ai.defineFlow(
   {
@@ -49,11 +54,19 @@ const visualizeClientWorkflowFlow = ai.defineFlow(
   async input => {
     const {media} = await ai.generate({
       model: 'googleai/imagen-4.0-fast-generate-001',
-      prompt: diagramPrompt.replace('{{{processDescription}}}', input.processDescription),
+      prompt: await diagramPrompt.render({input}),
     });
 
+    if (!media?.url) {
+      console.error('Image generation failed, no media URL returned.');
+      // Return a structured error or a default state
+      return {
+        workflowDiagramDataUri: '', // Indicate failure
+      };
+    }
+
     return {
-      workflowDiagramDataUri: media?.url ?? 'data:image/png;base64,',
+      workflowDiagramDataUri: media.url,
     };
   }
 );

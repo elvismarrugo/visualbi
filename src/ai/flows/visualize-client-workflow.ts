@@ -32,21 +32,13 @@ export async function visualizeClientWorkflow(
   return visualizeClientWorkflowFlow(input);
 }
 
-const prompt = ai.definePrompt({
-  name: 'visualizeClientWorkflowPrompt',
-  input: {schema: VisualizeClientWorkflowInputSchema},
-  output: {schema: VisualizeClientWorkflowOutputSchema},
-  prompt: `You are an expert workflow automation consultant. Based on the client's description of their current business processes, generate a visual representation of a proposed automated workflow diagram.
-
-  The diagram should highlight areas where automation can improve efficiency. Ensure the diagram is clear and easy to understand for someone unfamiliar with the processes.
-  Return the workflow diagram as a data URI, ensuring it is a valid image format (e.g., PNG) and properly Base64 encoded.
+const diagramPrompt = `You are an expert workflow automation consultant. Based on the client's description of their current business processes, generate a visual representation of a proposed automated workflow diagram.
+The diagram should be a clear, professional-looking flowchart. Use standard flowchart symbols.
+The diagram should highlight areas where automation can improve efficiency. Ensure the diagram is clear and easy to understand for someone unfamiliar with the processes.
 
 Client's Current Business Processes:
-{{{processDescription}}}
-
-Example Output:
-data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w+cAAQK0A0cOBQMVAAAAAElFTkSuQmCC`,
-});
+${'{{{processDescription}}}'}
+`;
 
 const visualizeClientWorkflowFlow = ai.defineFlow(
   {
@@ -57,7 +49,7 @@ const visualizeClientWorkflowFlow = ai.defineFlow(
   async input => {
     const {media} = await ai.generate({
       model: 'googleai/imagen-4.0-fast-generate-001',
-      prompt: `Generate a visual representation of a proposed automated workflow diagram based on the following business process description: ${input.processDescription}. Highlight areas where automation can improve efficiency.`,
+      prompt: diagramPrompt.replace('{{{processDescription}}}', input.processDescription),
     });
 
     return {

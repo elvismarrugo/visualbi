@@ -37,35 +37,43 @@ function SubmitButton() {
   );
 }
 
+// Initialize Mermaid once
+try {
+  mermaid.initialize({ startOnLoad: false, theme: 'neutral', securityLevel: 'loose' });
+} catch (e) {
+  console.error('Failed to initialize mermaid', e);
+}
+
+
 function MermaidDiagram({ diagram }: { diagram: string }) {
-    const ref = useRef<HTMLDivElement>(null);
-  
-    useEffect(() => {
-        if (diagram && ref.current) {
-            try {
-                // Unique ID for each render to avoid conflicts
-                const id = `mermaid-graph-${Date.now()}`;
-                mermaid.initialize({ startOnLoad: false, theme: 'neutral', securityLevel: 'loose' });
-                mermaid.render(id, diagram).then(({ svg }) => {
-                    if (ref.current) {
-                        ref.current.innerHTML = svg;
-                    }
-                }).catch(err => {
-                  console.error("Mermaid rendering error:", err);
-                  if(ref.current) {
-                    ref.current.innerHTML = `<p class="text-destructive">Error al renderizar el diagrama.</p>`;
-                  }
-                });
-            } catch (err) {
-                console.error("Mermaid initialization error:", err);
-                if(ref.current) {
-                    ref.current.innerHTML = `<p class="text-destructive">Error al inicializar Mermaid.</p>`;
-                }
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (diagram && ref.current) {
+      ref.current.innerHTML = ''; // Clear previous diagram
+      try {
+        mermaid.render(`mermaid-graph-${Date.now()}`, diagram)
+          .then(({ svg }) => {
+            if (ref.current) {
+              ref.current.innerHTML = svg;
             }
+          })
+          .catch(err => {
+            console.error("Mermaid rendering error:", err);
+            if (ref.current) {
+              ref.current.innerHTML = `<p class="text-destructive">Error al renderizar el diagrama.</p>`;
+            }
+          });
+      } catch (err) {
+        console.error("Mermaid execution error:", err);
+        if (ref.current) {
+          ref.current.innerHTML = `<p class="text-destructive">Error al ejecutar Mermaid.</p>`;
         }
-    }, [diagram]);
-  
-    return <div ref={ref} className="w-full h-full flex items-center justify-center" />;
+      }
+    }
+  }, [diagram]);
+
+  return <div ref={ref} className="w-full h-full flex items-center justify-center" />;
 }
 
 export default function WorkflowVisualizerSection() {
@@ -80,7 +88,7 @@ export default function WorkflowVisualizerSection() {
       // Clear diagram on error
       setDiagram(null);
     }
-  }, [state.data?.workflowDiagram, state.message]);
+  }, [state.data, state.message]);
 
   const handleSubmit = (formData: FormData) => {
     formAction(formData);

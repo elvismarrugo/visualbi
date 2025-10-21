@@ -32,7 +32,10 @@ export async function visualizeClientWorkflow(
   return visualizeClientWorkflowFlow(input);
 }
 
-const diagramPrompt = `You are an expert workflow automation consultant. Based on the client's description of their current business processes, generate a Mermaid.js flowchart.
+const diagramPrompt = ai.definePrompt({
+    name: 'diagramPrompt',
+    input: { schema: VisualizeClientWorkflowInputSchema },
+    prompt: `You are an expert workflow automation consultant. Based on the client's description of their current business processes, generate a Mermaid.js flowchart.
 
 - The diagram must be written entirely in Spanish. All node labels and text must be in Spanish.
 - The diagram should visually represent an improved, automated workflow.
@@ -43,7 +46,9 @@ const diagramPrompt = `You are an expert workflow automation consultant. Based o
 - The final output must be ONLY the Mermaid.js code block, starting with \`\`\`mermaid and ending with \`\`\`. Do not add any extra text, titles, or explanation before or after the code block.
 
 Client's Current Business Processes:
-{{{processDescription}}}`;
+{{{processDescription}}}`
+});
+
 
 const visualizeClientWorkflowFlow = ai.defineFlow(
   {
@@ -55,6 +60,7 @@ const visualizeClientWorkflowFlow = ai.defineFlow(
     const llmResponse = await ai.generate({
       prompt: diagramPrompt,
       model: 'googleai/gemini-2.5-flash',
+      input: input,
       config: {
         temperature: 0.3,
       }

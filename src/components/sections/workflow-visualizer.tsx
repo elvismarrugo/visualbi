@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, useRef } from "react";
+import { useActionState, useEffect, useRef, useState, useTransition } from "react";
 import { useFormStatus } from "react-dom";
 import mermaid from "mermaid";
 import { Bot, RefreshCw, Send } from "lucide-react";
@@ -42,85 +42,44 @@ function MermaidDiagram({ diagram }: { diagram: string }) {
   
     useEffect(() => {
         if (diagram && ref.current) {
-            mermaid.initialize({ startOnLoad: false, theme: 'neutral', securityLevel: 'loose' });
-            mermaid.render('mermaid-graph', diagram).then(({ svg }) => {
-                if (ref.current) {
-                    ref.current.innerHTML = svg;
+            try {
+                mermaid.initialize({ startOnLoad: false, theme: 'neutral', securityLevel: 'loose' });
+                mermaid.render('mermaid-graph', diagram).then(({ svg }) => {
+                    if (ref.current) {
+                        ref.current.innerHTML = svg;
+                    }
+                }).catch(err => {
+                  console.error("Mermaid rendering error:", err);
+                  if(ref.current) {
+                    ref.current.innerHTML = `<p class="text-destructive">Error al renderizar el diagrama.</p>`;
+                  }
+                });
+            } catch (err) {
+                console.error("Mermaid initialization error:", err);
+                if(ref.current) {
+                    ref.current.innerHTML = `<p class="text-destructive">Error al inicializar Mermaid.</p>`;
                 }
-            });
+            }
         }
     }, [diagram]);
   
     return <div ref={ref} className="w-full h-full flex items-center justify-center" />;
 }
 
-function WorkflowForm({
-  formAction,
-  state,
-}: {
-  formAction: (payload: FormData) => void;
-  state: typeof initialState;
-}) {
-  return (
-    <form action={formAction}>
-      <Card>
-        <CardHeader>
-          <CardTitle>Describa Su Proceso</CardTitle>
-          <CardDescription>
-            Sea lo más detallado posible para obtener los mejores resultados. Por ejemplo: "Recibimos pedidos por correo electrónico, los ingresamos manualmente en una hoja de cálculo y luego creamos una factura en otro sistema".
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid w-full gap-2">
-            <Label htmlFor="processDescription" className="sr-only">
-              Descripción del Proceso
-            </Label>
-            <Textarea
-              id="processDescription"
-              name="processDescription"
-              placeholder="Escriba su proceso de negocio aquí..."
-              rows={8}
-              required
-            />
-            {state.errors?.processDescription && (
-              <p className="text-sm text-destructive">{state.errors.processDescription[0]}</p>
-            )}
-          </div>
-        </CardContent>
-        <CardFooter>
-          <SubmitButton />
-        </CardFooter>
-      </Card>
-
-      <Card className="min-h-[300px] mt-8">
-        <CardHeader>
-          <CardTitle>Flujo de Trabajo Automatizado Propuesto</CardTitle>
-          <CardDescription>
-            El diagrama de su flujo de trabajo generado aparecerá aquí.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="aspect-video w-full rounded-lg border-2 border-dashed bg-background flex items-center justify-center">
-            {state.data?.workflowDiagram ? (
-                <MermaidDiagram diagram={state.data.workflowDiagram} />
-            ) : (
-              <div className="flex flex-col items-center gap-2 text-muted-foreground">
-                <Bot className="h-8 w-8" />
-                <p>Esperando la descripción del proceso</p>
-              </div>
-            )}
-            {state.message && state.message !== 'Success' && !state.errors && (
-              <p className="p-4 text-center text-destructive">{state.message}</p>
-            )}
-          </div>
-        </CardContent>
-      </Card>
-    </form>
-  );
-}
-
 export default function WorkflowVisualizerSection() {
   const [state, formAction] = useActionState(handleVisualizeWorkflow, initialState);
+  const [description, setDescription] = useState("");
+  const [diagram, setDiagram] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (state.data?.workflowDiagram) {
+      setDiagram(state.data.workflowDiagram);
+    }
+  }, [state.data?.workflowDiagram]);
+
+  const handleSubmit = (formData: FormData) => {
+    formAction(formData);
+  };
 
   return (
     <section id="visualizer" className="py-16 sm:py-24 bg-muted/40">
@@ -138,7 +97,62 @@ export default function WorkflowVisualizerSection() {
         </div>
 
         <div className="mt-12">
-          <WorkflowForm formAction={formAction} state={state} />
+           <form action={handleSubmit}>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Describa Su Proceso</CardTitle>
+                  <CardDescription>
+                    Sea lo más detallado posible para obtener los mejores resultados. Por ejemplo: "Recibimos pedidos por correo electrónico, los ingresamos manualmente en una hoja de cálculo y luego creamos una factura en otro sistema".
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid w-full gap-2">
+                    <Label htmlFor="processDescription" className="sr-only">
+                      Descripción del Proceso
+                    </Label>
+                    <Textarea
+                      id="processDescription"
+                      name="processDescription"
+                      placeholder="Escriba su proceso de negocio aquí..."
+                      rows={8}
+                      required
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                    />
+                    {state.errors?.processDescription && (
+                      <p className="text-sm text-destructive">{state.errors.processDescription[0]}</p>
+                    )}
+                  </div>
+                </CardContent>
+                <CardFooter>
+                  <SubmitButton />
+                </CardFooter>
+              </Card>
+            </form>
+
+            <Card className="min-h-[300px] mt-8">
+                <CardHeader>
+                <CardTitle>Flujo de Trabajo Automatizado Propuesto</CardTitle>
+                <CardDescription>
+                    El diagrama de su flujo de trabajo generado aparecerá aquí.
+                </CardDescription>
+                </CardHeader>
+                <CardContent>
+                <div className="aspect-video w-full rounded-lg border-2 border-dashed bg-background flex items-center justify-center p-4">
+                    {diagram ? (
+                        <MermaidDiagram diagram={diagram} />
+                    ) : (
+                    <div className="flex flex-col items-center gap-2 text-muted-foreground text-center">
+                        <Bot className="h-8 w-8" />
+                        <p>Esperando la descripción del proceso</p>
+                        {state.message && state.message !== 'Success' && !state.errors && (
+                          <p className="p-4 text-center text-destructive max-w-md">{state.message}</p>
+                        )}
+                    </div>
+                    )}
+                </div>
+                </CardContent>
+            </Card>
         </div>
       </div>
     </section>

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import mermaid from 'mermaid';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { AlertCircle } from 'lucide-react';
+import { Skeleton } from './skeleton';
 
 // Generate a unique ID for each diagram
 let idCounter = 0;
@@ -21,7 +22,7 @@ const MermaidDiagram = ({ chart }: { chart: string }) => {
 
     mermaid.initialize({
       startOnLoad: false,
-      theme: 'neutral', // or 'dark', 'forest', 'default', 'neutral'
+      theme: 'neutral', 
       securityLevel: 'loose',
       flowchart: {
         useMaxWidth: true,
@@ -33,16 +34,12 @@ const MermaidDiagram = ({ chart }: { chart: string }) => {
       try {
         if (!chart) return;
         
-        // Ensure the chart starts with flowchart TD for consistency
-        const fullChart = chart.trim().startsWith('flowchart') 
-            ? chart 
-            : `flowchart TD\n${chart}`;
-
-        const { svg: rawSvg } = await mermaid.render(diagramId, fullChart);
+        // The AI should provide the full chart syntax.
+        const { svg: rawSvg } = await mermaid.render(diagramId, chart);
         setSvg(rawSvg);
       } catch (e: any) {
         console.error('Mermaid rendering error:', e);
-        setError("Error al renderizar el diagrama.");
+        setError("Error al renderizar el diagrama. La sintaxis proporcionada por la IA podría ser inválida.");
       }
     };
 
@@ -62,7 +59,7 @@ const MermaidDiagram = ({ chart }: { chart: string }) => {
     return <div dangerouslySetInnerHTML={{ __html: svg }} />;
   }
 
-  return <div>Renderizando diagrama...</div>;
+  return <Skeleton className="h-[450px] w-full" />;
 };
 
 export default MermaidDiagram;

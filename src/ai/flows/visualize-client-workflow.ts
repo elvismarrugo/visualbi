@@ -37,6 +37,7 @@ const diagramPrompt = `You are an expert workflow automation consultant. Based o
 - The diagram should visually represent an improved, automated workflow.
 - Use simple shapes (rectangles, diamonds for decisions, ovals for start/end).
 - Use clear, concise labels for each step.
+- IMPORTANT: Do not use parentheses '()' inside node labels. For example, instead of 'Notify Customer (Out of Stock)', use 'Notify Customer - Out of Stock'.
 - The diagram should be easy to understand for someone unfamiliar with the process.
 - The final output must be ONLY the Mermaid.js code block, starting with \`\`\`mermaid and ending with \`\`\`. Do not add any extra text, titles, or explanation before or after the code block.
 

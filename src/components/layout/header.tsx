@@ -3,10 +3,10 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Menu, Workflow } from "lucide-react";
+import { Menu } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetClose, SheetTrigger } from "@/components/ui/sheet";
 import Logo from "../ui/logo";
 
 const navLinks = [
@@ -72,13 +72,14 @@ export default function Header() {
                 </Link>
                 <nav className="flex flex-col gap-4">
                   {navLinks.map((link) => (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      className="text-lg font-semibold text-foreground transition-colors hover:text-primary"
-                    >
-                      {link.label}
-                    </Link>
+                    <SheetClose key={link.href} asChild>
+                      <Link
+                        href={link.href}
+                        className="text-lg font-semibold text-foreground transition-colors hover:text-primary"
+                      >
+                        {link.label}
+                      </Link>
+                    </SheetClose>
                   ))}
                 </nav>
               </div>

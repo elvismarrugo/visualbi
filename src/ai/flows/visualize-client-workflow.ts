@@ -35,6 +35,10 @@ export async function visualizeClientWorkflow(
 const diagramPrompt = ai.definePrompt({
   name: 'diagramPrompt',
   input: {schema: VisualizeClientWorkflowInputSchema},
+  model: 'googleai/gemini-1.5-flash',
+  config: {
+    temperature: 0.3,
+  },
   prompt: `You are an expert workflow automation consultant. Based on the client's description of their current business processes, generate a Mermaid.js flowchart.
 
 - The diagram must be written entirely in Spanish. All node labels and text must be in Spanish.
@@ -56,17 +60,9 @@ const visualizeClientWorkflowFlow = ai.defineFlow(
     outputSchema: VisualizeClientWorkflowOutputSchema,
   },
   async input => {
-    const llmResponse = await ai.generate({
-      prompt: diagramPrompt,
-      model: 'googleai/gemini-1.5-flash',
-      input: input,
-      config: {
-        temperature: 0.3,
-      },
-    });
-
+    const llmResponse = await diagramPrompt(input);
     const mermaidText = llmResponse.text;
-    
+
     if (!mermaidText) {
         throw new Error('The AI failed to generate a diagram.');
     }

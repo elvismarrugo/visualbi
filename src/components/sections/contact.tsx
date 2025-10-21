@@ -1,6 +1,6 @@
 "use client";
 
-import { useFormStatus } from "react-dom";
+import { useFormStatus } from "react";
 import { Mail, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";

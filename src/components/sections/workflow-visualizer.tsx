@@ -1,6 +1,6 @@
 "use client";
 
-import { useFormState, useFormStatus } from "react-dom";
+import { useActionState, useFormStatus } from "react";
 import Image from "next/image";
 import { Bot, RefreshCw, Send } from "lucide-react";
 
@@ -38,7 +38,8 @@ function SubmitButton() {
 }
 
 export default function WorkflowVisualizerSection() {
-  const [state, formAction] = useFormState(handleVisualizeWorkflow, initialState);
+  const [state, formAction] = useActionState(handleVisualizeWorkflow, initialState);
+  const { pending } = useFormStatus();
 
   return (
     <section id="visualizer" className="py-16 sm:py-24 bg-muted/40">
@@ -94,7 +95,7 @@ export default function WorkflowVisualizerSection() {
             </CardHeader>
             <CardContent>
               <div className="aspect-video w-full rounded-lg border-2 border-dashed bg-background flex items-center justify-center">
-                {useFormStatus().pending ? (
+                {pending ? (
                    <div className="flex flex-col items-center gap-2 text-muted-foreground">
                     <RefreshCw className="h-8 w-8 animate-spin" />
                     <p>La IA está generando su diagrama...</p>

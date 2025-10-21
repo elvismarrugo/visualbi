@@ -35,7 +35,7 @@ export default function Footer() {
               </Link>
             </Button>
             <Button variant="ghost" size="icon" asChild>
-                <Link href="#" aria-label="WhatsApp">
+                <Link href="https://wa.me/573176589172" aria-label="WhatsApp" target="_blank">
                     <WhatsAppIcon className="h-5 w-5" />
                 </Link>
             </Button>

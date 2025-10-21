@@ -5,7 +5,7 @@ export default function Logo() {
     <div className="flex items-center gap-2">
       <Workflow className="h-7 w-7 text-primary" />
       <span className="text-xl font-bold tracking-tight text-foreground">
-        AutomaTech
+        Visual BI
       </span>
     </div>
   );

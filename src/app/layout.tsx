@@ -3,7 +3,7 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
-  title: 'Soluciones AutomaTech',
+  title: 'Soluciones Visual BI',
   description: 'Automatizando Su Éxito con Tecnología Inteligente.',
 };
 

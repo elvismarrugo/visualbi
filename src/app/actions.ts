@@ -45,10 +45,10 @@ export async function handleVisualizeWorkflow(prevState: State, formData: FormDa
       data: result,
       errors: null,
     };
-  } catch (error) {
+  } catch (error: any) {
     console.error("Workflow visualization error:", error);
     return {
-      message: "An unexpected error occurred while generating the workflow. Please try again later.",
+      message: `An error occurred: ${error.message}`,
       data: null,
       errors: null,
     };

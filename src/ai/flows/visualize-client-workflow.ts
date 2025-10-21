@@ -34,10 +34,11 @@ export async function visualizeClientWorkflow(
 
 const diagramPrompt = `You are an expert workflow automation consultant. Based on the client's description of their current business processes, generate a Mermaid.js flowchart.
 
+- The diagram must be written entirely in Spanish. All node labels and text must be in Spanish.
 - The diagram should visually represent an improved, automated workflow.
 - Use simple shapes (rectangles, diamonds for decisions, ovals for start/end).
 - Use clear, concise labels for each step.
-- IMPORTANT: Do not use parentheses '()' inside node labels. For example, instead of 'Notify Customer (Out of Stock)', use 'Notify Customer - Out of Stock'.
+- IMPORTANT: Do not use parentheses '()' inside node labels. For example, instead of 'Notificar Cliente (Sin Stock)', use 'Notificar Cliente - Sin Stock'.
 - The diagram should be easy to understand for someone unfamiliar with the process.
 - The final output must be ONLY the Mermaid.js code block, starting with \`\`\`mermaid and ending with \`\`\`. Do not add any extra text, titles, or explanation before or after the code block.
 

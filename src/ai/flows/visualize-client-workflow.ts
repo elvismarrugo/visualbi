@@ -2,7 +2,7 @@
 /**
  * @fileOverview Generates a visual representation of a proposed automated workflow based on a client's description of their current business processes.
  *
- * - visualizeClientWorkflow - A function that takes a description of current business processes and returns a data URI of a proposed automated workflow diagram.
+ * - visualizeClientWorkflow - A function that takes a description of current business processes and returns a Mermaid.js flowchart string.
  * - VisualizeClientWorkflowInput - The input type for the visualizeClientWorkflow function.
  * - VisualizeClientWorkflowOutput - The return type for the visualizeClientWorkflow function.
  */
@@ -21,7 +21,7 @@ const VisualizeClientWorkflowOutputSchema = z.object({
   workflowDiagram: z
     .string()
     .describe(
-      "A data URI of a flowchart image representing the proposed automated workflow. Expected format: 'data:image/...;base64,...'"
+      "A Mermaid.js flowchart string representing the proposed automated workflow."
     ),
 });
 export type VisualizeClientWorkflowOutput = z.infer<typeof VisualizeClientWorkflowOutputSchema>;
@@ -32,16 +32,16 @@ export async function visualizeClientWorkflow(
   return visualizeClientWorkflowFlow(input);
 }
 
-const diagramPrompt = `You are an expert workflow automation consultant. Based on the client's description of their current business processes, generate a professional-looking and clear flowchart diagram.
+const diagramPrompt = `You are an expert workflow automation consultant. Based on the client's description of their current business processes, generate a Mermaid.js flowchart.
 
 - The diagram should visually represent an improved, automated workflow.
 - Use simple shapes (rectangles, diamonds for decisions, ovals for start/end).
 - Use clear, concise labels for each step.
 - The diagram should be easy to understand for someone unfamiliar with the process.
-- The final output must be ONLY the image. Do not add any extra text or explanation.
+- The final output must be ONLY the Mermaid.js code block, starting with \`\`\`mermaid and ending with \`\`\`. Do not add any extra text, titles, or explanation before or after the code block.
 
 Client's Current Business Processes:
-${'{{processDescription}}'}`;
+{{{processDescription}}}`;
 
 const visualizeClientWorkflowFlow = ai.defineFlow(
   {
@@ -50,24 +50,25 @@ const visualizeClientWorkflowFlow = ai.defineFlow(
     outputSchema: VisualizeClientWorkflowOutputSchema,
   },
   async input => {
-    const {media} = await ai.generate({
-      model: 'googleai/gemini-2.5-flash-image-preview',
-      prompt: [
-        {text: diagramPrompt.replace('{{processDescription}}', input.processDescription)},
-      ],
+    const llmResponse = await ai.generate({
+      prompt: diagramPrompt,
+      model: 'googleai/gemini-2.5-flash',
       config: {
-        responseModalities: ['IMAGE'],
-      },
+        temperature: 0.3,
+      }
     });
 
-    const imageUrl = media?.url;
-
-    if (!imageUrl) {
-      throw new Error('The AI failed to generate an image for the workflow.');
+    const mermaidText = llmResponse.text;
+    
+    if (!mermaidText) {
+        throw new Error('The AI failed to generate a diagram.');
     }
 
+    // Clean up the output to ensure it's just the Mermaid syntax
+    const cleanedMermaid = mermaidText.replace(/```mermaid\n/g, '').replace(/```/g, '').trim();
+
     return {
-      workflowDiagram: imageUrl,
+      workflowDiagram: cleanedMermaid,
     };
   }
 );

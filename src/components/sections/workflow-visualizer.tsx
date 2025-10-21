@@ -3,13 +3,20 @@
 import { useActionState, useEffect, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { Bot, RefreshCw, Send } from "lucide-react";
-import Image from "next/image";
+import dynamic from 'next/dynamic';
 
 import { handleVisualizeWorkflow } from "@/app/actions";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "../ui/label";
+import { Skeleton } from "../ui/skeleton";
+
+const MermaidDiagram = dynamic(() => import('../ui/mermaid-diagram'), {
+  ssr: false,
+  loading: () => <Skeleton className="h-[450px] w-full" />,
+});
+
 
 const initialState = {
   message: "",
@@ -46,23 +53,30 @@ export default function WorkflowVisualizerSection() {
     if (state.data?.workflowDiagram) {
       setDiagram(state.data.workflowDiagram);
     } else if (state.message && state.message !== 'Success' && !state.errors) {
-      // Clear diagram on error that is not a validation error
       setDiagram(null);
     }
   }, [state]);
 
   const handleSubmit = (formData: FormData) => {
+    // Keep the diagram from the previous state if the new one is generating
+    if(!diagram) {
+      setDiagram(null);
+    }
     formAction(formData);
   };
-
+  
   const getErrorMessage = () => {
     if (!state.message || state.message === 'Success' || state.errors) return null;
 
-    if (state.message.includes('503 Service Unavailable') || state.message.includes('overloaded')) {
+    if (state.message.includes('503') || state.message.includes('overloaded')) {
       return "El servicio de IA está sobrecargado en este momento. Por favor, inténtalo de nuevo en unos momentos.";
     }
     
-    return state.message;
+    if (state.message.includes('generat') || state.message.includes('diagram')) {
+      return "La IA no pudo generar un diagrama para esta descripción. Por favor, intenta ser más detallado o prueba con otro proceso.";
+    }
+    
+    return "Ocurrió un error inesperado. Por favor, inténtalo de nuevo.";
   }
 
   return (
@@ -118,13 +132,13 @@ export default function WorkflowVisualizerSection() {
                 <CardHeader>
                 <CardTitle>Flujo de Trabajo Automatizado Propuesto</CardTitle>
                 <CardDescription>
-                    El diagrama de su flujo de trabajo generado por IA aparecerá aquí como una imagen.
+                    El diagrama de su flujo de trabajo generado por IA aparecerá aquí.
                 </CardDescription>
                 </CardHeader>
                 <CardContent>
-                <div className="aspect-video w-full overflow-auto rounded-lg border-2 border-dashed bg-background flex items-center justify-center p-4">
+                <div className="aspect-video w-full overflow-x-auto rounded-lg border-2 border-dashed bg-background flex items-center justify-center p-4">
                     {diagram ? (
-                        <Image src={diagram} alt="Diagrama de flujo de trabajo generado" width={800} height={450} style={{objectFit: 'contain', width: '100%', height: '100%'}} />
+                        <MermaidDiagram chart={diagram} />
                     ) : (
                     <div className="flex flex-col items-center gap-2 text-muted-foreground text-center">
                         <Bot className="h-8 w-8" />

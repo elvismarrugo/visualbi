@@ -25,7 +25,7 @@ const MermaidDiagram = ({ chart }: { chart: string }) => {
       theme: 'neutral', 
       securityLevel: 'loose',
       flowchart: {
-        useMaxWidth: true,
+        useMaxWidth: false, // Ensure the diagram doesn't try to shrink
         htmlLabels: true,
       },
     });
@@ -34,12 +34,11 @@ const MermaidDiagram = ({ chart }: { chart: string }) => {
       try {
         if (!chart) return;
         
-        // The AI should provide the full chart syntax.
         const { svg: rawSvg } = await mermaid.render(diagramId, chart);
         setSvg(rawSvg);
       } catch (e: any) {
         console.error('Mermaid rendering error:', e);
-        setError("Error al renderizar el diagrama. La sintaxis proporcionada por la IA podría ser inválida.");
+        setError("Error al renderizar el diagrama. La sintaxis de la IA podría ser inválida.");
       }
     };
 
@@ -48,7 +47,7 @@ const MermaidDiagram = ({ chart }: { chart: string }) => {
 
   if (error) {
     return (
-      <Alert variant="destructive">
+      <Alert variant="destructive" className="mt-4">
         <AlertCircle className="h-4 w-4" />
         <AlertDescription>{error}</AlertDescription>
       </Alert>
@@ -56,10 +55,11 @@ const MermaidDiagram = ({ chart }: { chart: string }) => {
   }
 
   if (svg) {
-    return <div dangerouslySetInnerHTML={{ __html: svg }} />;
+    // The div wrapper ensures it doesn't shrink and allows scrolling via the parent
+    return <div className="min-w-max" dangerouslySetInnerHTML={{ __html: svg }} />;
   }
 
-  return <Skeleton className="h-[450px] w-full" />;
+  return <Skeleton className="h-[450px] w-[600px] max-w-full" />;
 };
 
 export default MermaidDiagram;

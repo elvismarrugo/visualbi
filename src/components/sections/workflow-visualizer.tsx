@@ -69,6 +69,10 @@ export default function WorkflowVisualizerSection() {
   const getErrorMessage = () => {
     if (!state.message || state.message === 'Success' || state.errors) return null;
 
+    if (state.message.includes('overloaded')) {
+      return "El servicio de IA está sobrecargado en este momento. Por favor, inténtalo de nuevo en unos momentos.";
+    }
+
     // Mensaje genérico y profesional
     return state.message;
   }
@@ -126,15 +130,15 @@ export default function WorkflowVisualizerSection() {
                 <CardHeader>
                 <CardTitle>Flujo de Trabajo Automatizado Propuesto</CardTitle>
                 <CardDescription>
-                    El diagrama de su flujo de trabajo generado por IA aparecerá aquí.
+                    El diagrama de su flujo de trabajo generado por IA aparecerá aquí. Puede desplazarse horizontalmente si es muy grande.
                 </CardDescription>
                 </CardHeader>
                 <CardContent>
-                <div className="aspect-video w-full overflow-x-auto rounded-lg border-2 border-dashed bg-background flex items-center justify-center p-4">
+                <div className="w-full overflow-x-auto rounded-lg border-2 border-dashed bg-background p-4 flex justify-center items-start min-h-[450px]">
                     {diagram ? (
                         <MermaidDiagram chart={diagram} />
                     ) : (
-                    <div className="flex flex-col items-center gap-2 text-muted-foreground text-center">
+                    <div className="flex flex-col items-center justify-center gap-2 text-muted-foreground text-center h-full pt-16">
                         <Bot className="h-8 w-8" />
                         <p>Esperando la descripción del proceso</p>
                         {getErrorMessage() && (

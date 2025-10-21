@@ -72,7 +72,7 @@ const visualizeClientWorkflowFlow = ai.defineFlow(
         throw new Error('The AI failed to generate a diagram.');
     }
     
-    // The prompt now asks for raw text, but as a fallback, clean it.
+    // The prompt asks for raw text, but as a fallback, clean it.
     const cleanedMermaid = output.workflowDiagram
       .replace(/```mermaid\n/g, '')
       .replace(/```/g, '')

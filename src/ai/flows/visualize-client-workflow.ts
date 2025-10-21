@@ -18,10 +18,10 @@ const VisualizeClientWorkflowInputSchema = z.object({
 export type VisualizeClientWorkflowInput = z.infer<typeof VisualizeClientWorkflowInputSchema>;
 
 const VisualizeClientWorkflowOutputSchema = z.object({
-  workflowDiagramDataUri: z
+  workflowDiagram: z
     .string()
     .describe(
-      'A data URI of the generated workflow diagram in a suitable image format (e.g., PNG, JPEG) with MIME type and Base64 encoding.'
+      'A Mermaid.js graph definition representing the proposed automated workflow.'
     ),
 });
 export type VisualizeClientWorkflowOutput = z.infer<typeof VisualizeClientWorkflowOutputSchema>;
@@ -37,9 +37,15 @@ const diagramPrompt = ai.definePrompt({
   input: {
     schema: VisualizeClientWorkflowInputSchema,
   },
-  prompt: `You are an expert workflow automation consultant. Based on the client's description of their current business processes, generate a visual representation of a proposed automated workflow diagram.
-The diagram should be a clear, professional-looking flowchart. Use standard flowchart symbols.
+  output: {
+    schema: VisualizeClientWorkflowOutputSchema,
+  },
+  prompt: `You are an expert workflow automation consultant. Based on the client's description of their current business processes, generate a proposed automated workflow diagram.
+
+The diagram should be a clear, professional-looking flowchart using Mermaid.js syntax. Use a 'graph TD' (Top-Down) layout.
 The diagram should highlight areas where automation can improve efficiency. Ensure the diagram is clear and easy to understand for someone unfamiliar with the processes.
+
+Generate only the Mermaid.js code block for the diagram, starting with 'graph TD' and ending before any explanations.
 
 Client's Current Business Processes:
 {{{processDescription}}}`,
@@ -49,24 +55,15 @@ const visualizeClientWorkflowFlow = ai.defineFlow(
   {
     name: 'visualizeClientWorkflowFlow',
     inputSchema: VisualizeClientWorkflowInputSchema,
-    outputSchema: VisualizeClientWorkflowOutputSchema,
+    outputSchema: z.object({workflowDiagram: z.string()}),
   },
   async input => {
-    const {media} = await ai.generate({
-      model: 'googleai/imagen-4.0-fast-generate-001',
-      prompt: await diagramPrompt.render({input}),
-    });
-
-    if (!media?.url) {
-      console.error('Image generation failed, no media URL returned.');
-      // Return a structured error or a default state
-      return {
-        workflowDiagramDataUri: '', // Indicate failure
-      };
+    const {output} = await diagramPrompt(input);
+    if (!output) {
+      throw new Error('Failed to generate workflow diagram');
     }
-
     return {
-      workflowDiagramDataUri: media.url,
+      workflowDiagram: output.workflowDiagram.replace(/```mermaid\n|```/g, '').trim(),
     };
   }
 );

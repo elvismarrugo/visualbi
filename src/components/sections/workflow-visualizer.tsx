@@ -1,7 +1,8 @@
 "use client";
 
-import { useActionState } from "react";
-import Image from "next/image";
+import { useActionState, useEffect, useRef } from "react";
+import { useFormStatus } from "react-dom";
+import mermaid from "mermaid";
 import { Bot, RefreshCw, Send } from "lucide-react";
 
 import { handleVisualizeWorkflow } from "@/app/actions";
@@ -9,12 +10,10 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "../ui/label";
-import { useFormStatus } from "react-dom";
-
 
 const initialState = {
   message: "",
-  data: null as { workflowDiagramDataUri: string } | null,
+  data: null as { workflowDiagram: string } | null,
   errors: null,
 };
 
@@ -36,6 +35,23 @@ function SubmitButton() {
       )}
     </Button>
   );
+}
+
+function MermaidDiagram({ diagram }: { diagram: string }) {
+    const ref = useRef<HTMLDivElement>(null);
+  
+    useEffect(() => {
+        if (diagram && ref.current) {
+            mermaid.initialize({ startOnLoad: false, theme: 'neutral', securityLevel: 'loose' });
+            mermaid.render('mermaid-graph', diagram).then(({ svg }) => {
+                if (ref.current) {
+                    ref.current.innerHTML = svg;
+                }
+            });
+        }
+    }, [diagram]);
+  
+    return <div ref={ref} className="w-full h-full flex items-center justify-center" />;
 }
 
 function WorkflowForm({
@@ -85,14 +101,8 @@ function WorkflowForm({
         </CardHeader>
         <CardContent>
           <div className="aspect-video w-full rounded-lg border-2 border-dashed bg-background flex items-center justify-center">
-            {state.data?.workflowDiagramDataUri ? (
-              <Image
-                src={state.data.workflowDiagramDataUri}
-                alt="Diagrama de flujo de trabajo generado"
-                width={512}
-                height={288}
-                className="object-contain w-full h-full"
-              />
+            {state.data?.workflowDiagram ? (
+                <MermaidDiagram diagram={state.data.workflowDiagram} />
             ) : (
               <div className="flex flex-col items-center gap-2 text-muted-foreground">
                 <Bot className="h-8 w-8" />

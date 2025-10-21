@@ -10,7 +10,7 @@ const schema = z.object({
 
 type State = {
   message: string;
-  data: { workflowDiagramDataUri: string } | null;
+  data: { workflowDiagram: string } | null;
   errors: { processDescription?: string[] } | null;
 };
 
@@ -32,7 +32,7 @@ export async function handleVisualizeWorkflow(prevState: State, formData: FormDa
       processDescription: validatedFields.data.processDescription,
     });
     
-    if (!result.workflowDiagramDataUri || result.workflowDiagramDataUri.split(',')[1] === '') {
+    if (!result.workflowDiagram) {
         return {
             message: "The AI could not generate a diagram for this description. Please try a different or more detailed process.",
             data: null,

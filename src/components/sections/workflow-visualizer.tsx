@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, useRef, useState, useTransition } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { useFormStatus } from "react-dom";
 import mermaid from "mermaid";
 import { Bot, RefreshCw, Send } from "lucide-react";
@@ -43,8 +43,10 @@ function MermaidDiagram({ diagram }: { diagram: string }) {
     useEffect(() => {
         if (diagram && ref.current) {
             try {
+                // Unique ID for each render to avoid conflicts
+                const id = `mermaid-graph-${Date.now()}`;
                 mermaid.initialize({ startOnLoad: false, theme: 'neutral', securityLevel: 'loose' });
-                mermaid.render('mermaid-graph', diagram).then(({ svg }) => {
+                mermaid.render(id, diagram).then(({ svg }) => {
                     if (ref.current) {
                         ref.current.innerHTML = svg;
                     }
@@ -78,6 +80,9 @@ export default function WorkflowVisualizerSection() {
   }, [state.data?.workflowDiagram]);
 
   const handleSubmit = (formData: FormData) => {
+    // Preserve the description in the textarea
+    const currentDescription = formData.get("processDescription") as string;
+    setDescription(currentDescription);
     formAction(formData);
   };
 
@@ -138,7 +143,7 @@ export default function WorkflowVisualizerSection() {
                 </CardDescription>
                 </CardHeader>
                 <CardContent>
-                <div className="aspect-video w-full rounded-lg border-2 border-dashed bg-background flex items-center justify-center p-4">
+                <div className="aspect-video w-full overflow-x-auto rounded-lg border-2 border-dashed bg-background flex items-center justify-center p-4">
                     {diagram ? (
                         <MermaidDiagram diagram={diagram} />
                     ) : (

@@ -6,12 +6,12 @@ export default function Logo() {
       <Image
         src="/logo.png"
         alt="Visual BI Logo"
-        width={28}
-        height={28}
-        className="h-7 w-7 relative bottom-0.5"
+        width={40}
+        height={40}
+        className="h-10 w-10"
         aria-hidden="true"
       />
-      <span className="text-xl font-bold tracking-tight text-foreground">
+      <span className="text-2xl font-bold tracking-tight text-foreground">
         Visual BI
       </span>
     </div>

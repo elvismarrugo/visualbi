@@ -21,7 +21,7 @@ const VisualizeClientWorkflowOutputSchema = z.object({
   workflowDiagram: z
     .string()
     .describe(
-      "A Mermaid.js flowchart string representing the proposed automated workflow."
+      "A Mermaid.js flowchart string representing the proposed automated workflow, formatted as just the code without markdown backticks."
     ),
 });
 export type VisualizeClientWorkflowOutput = z.infer<typeof VisualizeClientWorkflowOutputSchema>;
@@ -35,6 +35,10 @@ export async function visualizeClientWorkflow(
 const diagramPrompt = ai.definePrompt({
   name: 'diagramPrompt',
   input: {schema: VisualizeClientWorkflowInputSchema},
+  output: {
+    format: 'json',
+    schema: VisualizeClientWorkflowOutputSchema
+  },
   model: 'googleai/gemini-1.5-flash',
   config: {
     temperature: 0.3,
@@ -47,7 +51,7 @@ const diagramPrompt = ai.definePrompt({
 - Use clear, concise labels for each step.
 - IMPORTANT: Do not use parentheses '()' inside node labels. For example, instead of 'Notificar Cliente (Sin Stock)', use 'Notificar Cliente - Sin Stock'.
 - The diagram should be easy to understand for someone unfamiliar with the process.
-- The final output must be ONLY the Mermaid.js code block, starting with \`\`\`mermaid and ending with \`\`\`. Do not add any extra text, titles, or explanation before or after the code block.
+- You must generate ONLY the Mermaid.js flowchart code itself, without any surrounding markdown like \`\`\`mermaid or \`\`\`.
 
 Client's Current Business Processes:
 {{{processDescription}}}`,
@@ -61,14 +65,18 @@ const visualizeClientWorkflowFlow = ai.defineFlow(
   },
   async input => {
     const llmResponse = await diagramPrompt(input);
-    const mermaidText = llmResponse.text;
+    
+    const output = llmResponse.output;
 
-    if (!mermaidText) {
+    if (!output?.workflowDiagram) {
         throw new Error('The AI failed to generate a diagram.');
     }
-
-    // Clean up the output to ensure it's just the Mermaid syntax
-    const cleanedMermaid = mermaidText.replace(/```mermaid\n/g, '').replace(/```/g, '').trim();
+    
+    // The prompt now asks for raw text, but as a fallback, clean it.
+    const cleanedMermaid = output.workflowDiagram
+      .replace(/```mermaid\n/g, '')
+      .replace(/```/g, '')
+      .trim();
 
     return {
       workflowDiagram: cleanedMermaid,

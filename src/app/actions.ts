@@ -1,24 +1,44 @@
 
 "use server";
 
-import { visualizeClientWorkflow } from "@/ai/flows/visualize-client-workflow";
 import { z } from "zod";
+import { Resend } from 'resend';
+import { visualizeClientWorkflow } from "@/ai/flows/visualize-client-workflow";
+import ContactFormEmail from "@/components/emails/contact-form-email";
 
-const schema = z.object({
+// Schema para el visualizador
+const workflowSchema = z.object({
   processDescription: z.string().min(20, { message: "Por favor, proporcione una descripción más detallada (al menos 20 caracteres)." }),
 });
 
-type State = {
+type WorkflowState = {
   message: string;
   data: { workflowDiagram: string } | null;
   errors: { processDescription?: string[] } | null;
 };
 
+// Schema para el formulario de contacto
+const contactSchema = z.object({
+    name: z.string().min(2, { message: "El nombre debe tener al menos 2 caracteres." }),
+    email: z.string().email({ message: "Por favor, ingrese un correo electrónico válido." }),
+    details: z.string().min(10, { message: "Los detalles deben tener al menos 10 caracteres." }),
+});
+
+type ContactState = {
+    message: string;
+    errors?: {
+        name?: string[];
+        email?: string[];
+        details?: string[];
+    } | null;
+    success: boolean;
+};
+
 // Helper para esperar un tiempo determinado
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-export async function handleVisualizeWorkflow(prevState: State, formData: FormData): Promise<State> {
-  const validatedFields = schema.safeParse({
+export async function handleVisualizeWorkflow(prevState: WorkflowState, formData: FormData): Promise<WorkflowState> {
+  const validatedFields = workflowSchema.safeParse({
     processDescription: formData.get("processDescription"),
   });
 
@@ -52,14 +72,11 @@ export async function handleVisualizeWorkflow(prevState: State, formData: FormDa
       lastError = error;
       console.error(`Intento ${attempt} fallido:`, error.message);
 
-      // Si el error es por sobrecarga/cuota y no es el último intento, esperamos y reintentamos.
       if ((error.message.includes('503') || error.message.includes('429') || error.message.includes('overloaded')) && attempt < maxRetries) {
-        // Espera exponencial (1s, 2s, 4s)
         const delay = Math.pow(2, attempt - 1) * 1000;
         console.log(`Reintentando en ${delay}ms...`);
         await sleep(delay);
       } else {
-        // Si no es un error de sobrecarga o es el último intento, fallamos.
         break;
       }
     }
@@ -71,4 +88,56 @@ export async function handleVisualizeWorkflow(prevState: State, formData: FormDa
     data: null,
     errors: null,
   };
+}
+
+
+export async function handleContactForm(prevState: ContactState, formData: FormData): Promise<ContactState> {
+    const validatedFields = contactSchema.safeParse({
+        name: formData.get("name"),
+        email: formData.get("email"),
+        details: formData.get("details"),
+    });
+
+    if (!validatedFields.success) {
+        return {
+            message: "Validación fallida.",
+            errors: validatedFields.error.flatten().fieldErrors,
+            success: false,
+        };
+    }
+
+    const { name, email, details } = validatedFields.data;
+    const resend = new Resend(process.env.RESEND_API_KEY);
+
+    try {
+        const { data, error } = await resend.emails.send({
+            from: 'Visual BI Contact <onboarding@resend.dev>', // Debe ser un dominio verificado en Resend
+            to: ['elvix@somosvisualbi.com'], // Tu correo
+            subject: `Nueva consulta de ${name} desde tu web`,
+            react: ContactFormEmail({ name, email, details }),
+        });
+
+        if (error) {
+            console.error("Resend error:", error);
+            return {
+                message: `Error al enviar el correo: ${error.message}`,
+                errors: null,
+                success: false,
+            };
+        }
+
+        return {
+            message: "¡Consulta enviada con éxito!",
+            errors: null,
+            success: true,
+        };
+
+    } catch (e: any) {
+        console.error("Server action error:", e);
+        return {
+            message: "Ocurrió un error inesperado en el servidor. Por favor, inténtelo de nuevo.",
+            errors: null,
+            success: false,
+        };
+    }
 }

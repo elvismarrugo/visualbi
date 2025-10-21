@@ -8,7 +8,7 @@ export default function Logo() {
         alt="Visual BI Logo"
         width={28}
         height={28}
-        className="h-7 w-7"
+        className="h-7 w-7 relative bottom-0.5"
         aria-hidden="true"
       />
       <span className="text-xl font-bold tracking-tight text-foreground">

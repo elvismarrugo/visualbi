@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Menu } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetClose, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetClose, SheetTrigger, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import Logo from "../ui/logo";
 
 const navLinks = [
@@ -66,6 +66,12 @@ export default function Header() {
               </Button>
             </SheetTrigger>
             <SheetContent side="right">
+              <SheetHeader className="sr-only">
+                  <SheetTitle>Menú de Navegación</SheetTitle>
+                  <SheetDescription>
+                    Navegación principal del sitio. Seleccione un enlace para ir a la sección correspondiente.
+                  </SheetDescription>
+              </SheetHeader>
               <div className="flex flex-col gap-6 p-6">
                 <Link href="/" className="flex items-center gap-2">
                   <Logo />

@@ -30,7 +30,7 @@ export default function Footer() {
           </div>
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="icon" asChild>
-              <Link href="#" aria-label="Instagram">
+              <Link href="https://www.instagram.com/somosvisualbi" aria-label="Instagram" target="_blank">
                 <Instagram className="h-5 w-5" />
               </Link>
             </Button>

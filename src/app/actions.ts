@@ -111,16 +111,13 @@ export async function handleContactForm(prevState: ContactState, formData: FormD
     const resendApiKey = process.env.RESEND_API_KEY;
 
     if (!resendApiKey) {
-        console.error("La variable de entorno RESEND_API_KEY no está configurada.");
         return {
-            message: "Error del servidor: La configuración de envío de correo no está completa.",
+            message: "La variable de entorno RESEND_API_KEY no está configurada en el servidor.",
             errors: null,
             success: false,
         };
     }
     
-    console.log(`Usando RESEND_API_KEY: ${resendApiKey.substring(0, 5)}...`);
-
     const { name, email, details } = validatedFields.data;
     
     const resend = new Resend(resendApiKey);
@@ -135,8 +132,9 @@ export async function handleContactForm(prevState: ContactState, formData: FormD
 
         if (error) {
             console.error("Resend error:", error);
+            const keyHint = resendApiKey.substring(0, 5);
             return {
-                message: `Error al enviar el correo: ${error.message}`,
+                message: `Error al enviar el correo: La API key que comienza con '${keyHint}...' es inválida.`,
                 errors: null,
                 success: false,
             };

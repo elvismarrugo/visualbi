@@ -5,6 +5,7 @@ import { z } from "zod";
 import { Resend } from 'resend';
 import ContactFormEmail from "@/components/emails/contact-form-email";
 import { visualizeClientWorkflow } from "@/ai/flows/visualize-client-workflow";
+require('dotenv').config({ path: './.env.local' });
 
 
 // Schema para el visualizador
@@ -106,10 +107,23 @@ export async function handleContactForm(prevState: ContactState, formData: FormD
             success: false,
         };
     }
+    
+    const resendApiKey = process.env.RESEND_API_KEY;
+
+    if (!resendApiKey) {
+        console.error("La variable de entorno RESEND_API_KEY no está configurada.");
+        return {
+            message: "Error del servidor: La configuración de envío de correo no está completa.",
+            errors: null,
+            success: false,
+        };
+    }
+    
+    console.log(`Usando RESEND_API_KEY: ${resendApiKey.substring(0, 5)}...`);
 
     const { name, email, details } = validatedFields.data;
     
-    const resend = new Resend(process.env.RESEND_API_KEY);
+    const resend = new Resend(resendApiKey);
 
     try {
         const { data, error } = await resend.emails.send({

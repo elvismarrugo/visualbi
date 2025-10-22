@@ -108,6 +108,7 @@ export async function handleContactForm(prevState: ContactState, formData: FormD
     }
 
     const { name, email, details } = validatedFields.data;
+    
     const resend = new Resend(process.env.RESEND_API_KEY);
 
     try {

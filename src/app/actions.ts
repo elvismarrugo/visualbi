@@ -3,9 +3,9 @@
 
 import { z } from "zod";
 import { Resend } from 'resend';
-import { visualizeClientWorkflow } from "@/ai/flows/visualize-client-workflow";
 import ContactFormEmail from "@/components/emails/contact-form-email";
-import * as React from 'react';
+import { visualizeClientWorkflow } from "@/ai/flows/visualize-client-workflow";
+
 
 // Schema para el visualizador
 const workflowSchema = z.object({
@@ -115,7 +115,7 @@ export async function handleContactForm(prevState: ContactState, formData: FormD
             from: 'Visual BI Contact <onboarding@resend.dev>', // Debe ser un dominio verificado en Resend
             to: ['elvix@somosvisualbi.com'], // Tu correo
             subject: `Nueva consulta de ${name} desde tu web`,
-            react: <ContactFormEmail name={name} email={email} details={details} />,
+            react: ContactFormEmail({ name, email, details }),
         });
 
         if (error) {

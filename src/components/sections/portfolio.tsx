@@ -14,7 +14,7 @@ const portfolioItems = [
   },
   {
     id: "portfolio-2",
-    title: "Análisis en Tiempo Real para FinTech",
+    title: "Análisis en Tiempo Real con Datos Oportunos",
     description: "Desarrollo de un dashboard de BI personalizado que agrega datos de más de 5 fuentes, proporcionando a la alta dirección información instantánea y procesable.",
     metric: "Ciclos de informes 50% más rápidos",
     tags: ["Dashboards", "BI"],

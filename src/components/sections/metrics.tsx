@@ -7,13 +7,13 @@ const metrics = [
     icon: <Clock className="h-8 w-8" />,
   },
   {
-    value: "4x",
-    label: "Procesamiento de pedidos más rápido",
+    value: "90%",
+    label: "Aumento de eficiencia en los procesos",
     icon: <Zap className="h-8 w-8" />,
   },
   {
-    value: "300+",
-    label: "Clientes B2B Satisfechos",
+    value: "500+",
+    label: "Horas de trabajo manual ahorradas",
     icon: <Users className="h-8 w-8" />,
   },
 ];

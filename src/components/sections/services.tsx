@@ -32,7 +32,7 @@ const services = [
     icon: <N8nIcon className="text-primary" />,
     title: "Automatización de Procesos con n8n",
     description: "Conectamos sus herramientas y creamos flujos de trabajo automatizados con n8n. Desde tareas simples hasta procesos complejos, liberamos a su equipo para que se enfoque en lo que realmente importa.",
-    useCase: "Ideal para escalar operaciones y eliminar cuellos de botella."
+    useCase: "Para empresas que buscan maximizar la eficiencia y reducir errores."
   },
 ];
 

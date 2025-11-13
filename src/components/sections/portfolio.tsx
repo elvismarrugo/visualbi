@@ -15,9 +15,9 @@ const portfolioItems = [
   {
     id: "portfolio-2",
     title: "Análisis en Tiempo Real para FinTech",
-    description: "Desarrollo de un panel de BI personalizado que agrega datos de más de 5 fuentes, proporcionando a la alta dirección información instantánea y procesable.",
+    description: "Desarrollo de un dashboard de BI personalizado que agrega datos de más de 5 fuentes, proporcionando a la alta dirección información instantánea y procesable.",
     metric: "Ciclos de informes 50% más rápidos",
-    tags: ["Paneles", "BI"],
+    tags: ["Dashboards", "BI"],
   },
   {
     id: "portfolio-3",

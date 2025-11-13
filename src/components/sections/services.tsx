@@ -10,8 +10,8 @@ const services = [
   },
   {
     icon: <LayoutDashboard className="h-10 w-10 text-primary" />,
-    title: "Paneles Personalizados",
-    description: "Obtenga información en tiempo real con paneles de datos a medida. Conectamos sus diversas fuentes de datos en una única interfaz intuitiva.",
+    title: "Dashboards Personalizados",
+    description: "Obtenga información en tiempo real con dashboards de datos a medida. Conectamos sus diversas fuentes de datos en una única interfaz intuitiva.",
     useCase: "Ideal para la toma de decisiones basada en datos."
   },
   {

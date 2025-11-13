@@ -77,7 +77,12 @@ export default function Footer() {
           </div>
         </div>
         <div className="mt-6 border-t pt-6 text-center text-sm text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} Soluciones Visual BI. Todos los derechos reservados.</p>
+          <p>
+            &copy; {new Date().getFullYear()} | Desarrollado por{' '}
+            <Link href="/" className="font-semibold text-primary hover:underline">
+              Visual BI
+            </Link>
+          </p>
         </div>
       </div>
     </footer>

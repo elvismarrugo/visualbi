@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { ShoppingCart, LayoutDashboard, Shuffle } from "lucide-react";
+import { ShoppingCart, LayoutDashboard } from "lucide-react";
 
 const N8nIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg 

@@ -20,9 +20,9 @@
     },
     {
       "id": "portfolio-3",
-      "description": "A diagram showing a complex API integration workflow.",
-      "imageUrl": "https://images.unsplash.com/photo-1608736967942-7b560e6a7249?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8QVBJJTIwaW50ZWdyYXRpb258ZW58MHx8fHwxNzU5MjY5NzQxfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "API integration"
+      "description": "A spreadsheet on a computer screen with medical icons, representing health data management.",
+      "imageUrl": "https://images.unsplash.com/photo-1608736967942-7b560e6a7249?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8aGVhbHRoJTIwZGF0YSUyMG1hbmFnZW1lbnR8ZW58MHx8fHwxNzU5MjY5NzQxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "health data"
     }
   ]
 }

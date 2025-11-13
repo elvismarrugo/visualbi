@@ -21,10 +21,10 @@ const portfolioItems = [
   },
   {
     id: "portfolio-3",
-    title: "Integración de Plataforma SaaS",
-    description: "Se diseñó una capa de integración escalable que conecta el CRM, ERP y las plataformas de marketing de un cliente en un sistema unificado.",
-    metric: "Aumento del 200% en la consistencia de los datos",
-    tags: ["Integraciones", "API"],
+    title: "Automatización de Cobros para el Sector Salud",
+    description: "Se desarrolló una solución con Google Apps Script para una doctora, automatizando la generación de resúmenes de cobros para aseguradoras y llevando un control diario preciso de ingresos por efectivo y transferencias.",
+    metric: "Reducción del 80% en el tiempo de generación de informes",
+    tags: ["Google Apps Script", "Automatización"],
   },
 ];
 

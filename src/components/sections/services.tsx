@@ -1,6 +1,20 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { ShoppingCart, LayoutDashboard, Shuffle } from "lucide-react";
 
+const N8nIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg 
+        xmlns="http://www.w3.org/2000/svg" 
+        viewBox="0 0 256 256"
+        width="40"
+        height="40"
+        fill="currentColor"
+        {...props}
+    >
+        <path d="M255.4 96.2H176l-32 39.4 32 39.5h79.3l-32-39.5-32.1-39.4h111.2V96.2zM80.1 96.2H0v42.6h111.2l-32-39.5-32.1-39.4H80.1v36.3zM80.1 135.7H.1v42.6h79.9v-36.3L112.1 182l32-39.5H80.1v-6.8z"/>
+    </svg>
+);
+
+
 const services = [
   {
     icon: <ShoppingCart className="h-10 w-10 text-primary" />,
@@ -15,10 +29,10 @@ const services = [
     useCase: "Ideal para la toma de decisiones basada en datos."
   },
   {
-    icon: <Shuffle className="h-10 w-10 text-primary" />,
-    title: "Integraciones Personalizadas",
-    description: "Conecte sus aplicaciones empresariales esenciales sin problemas. Nuestras integraciones de API personalizadas aseguran que su ecosistema de software funcione en armonía.",
-    useCase: "Esencial para empresas con diversas herramientas de software."
+    icon: <N8nIcon className="text-primary" />,
+    title: "Automatización de Procesos con n8n",
+    description: "Conectamos sus herramientas y creamos flujos de trabajo automatizados con n8n. Desde tareas simples hasta procesos complejos, liberamos a su equipo para que se enfoque en lo que realmente importa.",
+    useCase: "Ideal para escalar operaciones y eliminar cuellos de botella."
   },
 ];
 

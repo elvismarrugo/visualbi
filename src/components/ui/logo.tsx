@@ -7,7 +7,7 @@ export default function Logo() {
         <Zap className="h-6 w-6 text-primary" />
        </div>
       <span className="text-2xl font-bold tracking-tight text-foreground">
-        Soluciones Visual BI
+        Visual BI
       </span>
     </div>
   );

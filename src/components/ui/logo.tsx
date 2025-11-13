@@ -1,18 +1,13 @@
-import Image from 'next/image';
+import { Zap } from 'lucide-react';
 
 export default function Logo() {
   return (
-    <div className="flex items-center gap-1">
-      <Image
-        src="/logo.png"
-        alt="Visual BI Logo"
-        width={48}
-        height={48}
-        className="h-12 w-12 relative bottom-1"
-        aria-hidden="true"
-      />
-      <span className="text-3xl font-bold tracking-tight text-foreground">
-        Visual BI
+    <div className="flex items-center gap-2">
+       <div className="p-1.5 bg-primary/20 rounded-lg">
+        <Zap className="h-6 w-6 text-primary" />
+       </div>
+      <span className="text-2xl font-bold tracking-tight text-foreground">
+        Soluciones Visual BI
       </span>
     </div>
   );

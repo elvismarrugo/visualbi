@@ -23,7 +23,7 @@ const portfolioItems = [
     id: "portfolio-3",
     title: "Automatización de Cobros para el Sector Salud",
     description: "Se desarrolló una solución con Google Apps Script para una doctora, automatizando la generación de resúmenes de cobros para aseguradoras y llevando un control diario preciso de ingresos por efectivo y transferencias.",
-    metric: "Reducción del 80% en el tiempo de generación de informes",
+    metric: "Ahorro de 10+ horas semanales en trabajo administrativo",
     tags: ["Google Apps Script", "Automatización"],
   },
 ];

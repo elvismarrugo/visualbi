@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: 'Soluciones Visual BI',
   description: 'Automatizando Su Éxito con Tecnología Inteligente.',
   icons: {
-    icon: '/logo.png',
+    icon: '/logo.png?v=2',
   },
 };
 

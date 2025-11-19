@@ -5,6 +5,11 @@ import { Toaster } from '@/components/ui/toaster';
 export const metadata: Metadata = {
   title: 'Soluciones Visual BI',
   description: 'Automatizando Su Éxito con Tecnología Inteligente.',
+  icons: {
+    icon: '/icon.png',
+    shortcut: '/icon.png',
+    apple: '/icon.png',
+  },
 };
 
 export default function RootLayout({
